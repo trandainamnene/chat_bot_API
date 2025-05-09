@@ -40,6 +40,11 @@ public class JwtAuthenticationController {
         }
     }
 
+    @PostMapping("/check")
+    public ResponseEntity<Boolean> checkToken() {
+        return ResponseEntity.ok(true);
+    }
+
     @GetMapping("/test")
     public String test() {
         return "OKE";
