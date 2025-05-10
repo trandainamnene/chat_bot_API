@@ -6,6 +6,7 @@ import com.example.chatbotAPI.repository.ChatHistoryRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 @Service
 public class ChatHistoryService {
@@ -20,5 +21,13 @@ public class ChatHistoryService {
                 false
         ).toList();
         return allListChat;
+    }
+
+    public Boolean isExist(int id) {
+        return chatHistoryRepo.existsById(id);
+    }
+
+    public Optional<ChatHistoryEntity> getById(int id) {
+        return chatHistoryRepo.findById(id);
     }
 }

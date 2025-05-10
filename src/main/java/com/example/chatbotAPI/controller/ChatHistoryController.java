@@ -21,7 +21,7 @@ public class ChatHistoryController {
         this.chatHistoryService = chatHistoryService;
         this.chatHistoryMapper = chatHistoryMapper;
     }
-    @GetMapping("/getAll")
+    @GetMapping()
     public List<ChatHistoryDTO> getListChatHistory() {
         List<ChatHistoryEntity> allHisTory = chatHistoryService.getAll();
         System.out.println( "Chieu dai cua chat : " + allHisTory.size() + " " + allHisTory + " " + allHisTory.get(0));
