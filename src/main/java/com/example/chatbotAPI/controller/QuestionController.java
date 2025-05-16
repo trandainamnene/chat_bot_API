@@ -5,12 +5,11 @@ import com.example.chatbotAPI.domain.entity.QuestionEntity;
 import com.example.chatbotAPI.mapper.impl.QuestionMapper;
 import com.example.chatbotAPI.service.QuestionService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/question")
@@ -32,4 +31,12 @@ public class QuestionController {
             throw new RuntimeException("ID history is not existed");
         }
     }
+    @PostMapping("/{idChat}")
+    public ResponseEntity<QuestionDTO> add(@RequestBody QuestionDTO questionDTO) {
+        QuestionEntity questionEntity = questionMapper.mapFrom(questionDTO);
+        QuestionEntity addedQuestion = questionService.create(questionEntity);
+        QuestionDTO rs = questionMapper.mapTo(addedQuestion);
+        return ResponseEntity.ok(rs);
+    }
+
 }

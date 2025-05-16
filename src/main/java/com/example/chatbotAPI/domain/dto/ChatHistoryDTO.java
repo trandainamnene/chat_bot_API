@@ -1,5 +1,6 @@
 package com.example.chatbotAPI.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,6 @@ import lombok.NoArgsConstructor;
 public class ChatHistoryDTO {
     int idHistory;
     String summary;
-    String username;
-
+    @JsonIgnore
+    DoctorDTO username;
 }

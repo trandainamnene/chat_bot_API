@@ -10,6 +10,7 @@ import java.util.Date;
 @Entity
 public class ChatHistoryEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idHistory;
     String summary;
     @ManyToOne

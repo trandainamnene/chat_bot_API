@@ -8,6 +8,7 @@ import lombok.Data;
 @Table(name = "Question")
 public class QuestionEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idquestion;
     String questiontext;
     String responsetext;

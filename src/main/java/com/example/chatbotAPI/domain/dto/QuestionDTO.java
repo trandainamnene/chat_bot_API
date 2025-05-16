@@ -12,5 +12,5 @@ public class QuestionDTO {
     int idquestion;
     String questiontext;
     String responsetext;
-    private int idHistory;
+    ChatHistoryDTO idHistory;
 }

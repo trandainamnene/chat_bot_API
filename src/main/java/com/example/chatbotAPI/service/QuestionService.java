@@ -31,4 +31,9 @@ public class QuestionService {
             throw new Exception("asd");
         }
     }
+    public QuestionEntity create(QuestionEntity questionEntity) {
+        Optional<ChatHistoryEntity> chatHistoryEntity = chatHistoryRepo.findById(questionEntity.getIdHistory().getIdHistory());
+        questionEntity.setIdHistory(chatHistoryEntity.get());
+        return questionRepo.save(questionEntity);
+    }
 }
