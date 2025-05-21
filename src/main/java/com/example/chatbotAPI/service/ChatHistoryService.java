@@ -1,9 +1,11 @@
 package com.example.chatbotAPI.service;
 
 import com.example.chatbotAPI.domain.dto.ChatHistoryDTO;
+import com.example.chatbotAPI.domain.dto.QuestionDTO;
 import com.example.chatbotAPI.domain.entity.ChatHistoryEntity;
 import com.example.chatbotAPI.domain.entity.QuestionEntity;
 import com.example.chatbotAPI.repository.ChatHistoryRepo;
+import com.example.chatbotAPI.repository.QuestionRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +15,10 @@ import java.util.stream.StreamSupport;
 @Service
 public class ChatHistoryService {
     private ChatHistoryRepo chatHistoryRepo;
+    private QuestionRepo questionRepo;
 
-    public ChatHistoryService(ChatHistoryRepo chatHistoryRepo) {
+    public ChatHistoryService(ChatHistoryRepo chatHistoryRepo , QuestionRepo questionRepo) {
+        this.questionRepo = questionRepo;
         this.chatHistoryRepo = chatHistoryRepo;
     }
 
@@ -43,5 +47,19 @@ public class ChatHistoryService {
                 chatHistoryRepo.findByUsernameUsername(username).spliterator(),
                 false
         ).toList();
+    }
+
+    public void delete(int idChat) {
+        List<QuestionEntity> allQuestion = StreamSupport.stream(
+                questionRepo.findAll().spliterator(),
+                false
+        ).toList();
+        allQuestion.forEach(e -> {
+            if (e.getIdHistory().getIdHistory() == idChat) {
+                questionRepo.delete(e);
+            }
+        } );
+        Iterable<QuestionEntity> lstQuestion = questionRepo.findAll();
+        chatHistoryRepo.deleteById(idChat);
     }
 }

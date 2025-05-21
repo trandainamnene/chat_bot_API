@@ -36,4 +36,10 @@ public class QuestionService {
         questionEntity.setIdHistory(chatHistoryEntity.get());
         return questionRepo.save(questionEntity);
     }
+
+    public void delete(int id) {
+        chatHistoryRepo.deleteById(id);
+    }
+
+
 }

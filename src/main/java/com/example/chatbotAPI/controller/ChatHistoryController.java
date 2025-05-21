@@ -7,10 +7,7 @@ import com.example.chatbotAPI.domain.entity.ChatHistoryEntity;
 import com.example.chatbotAPI.domain.entity.QuestionEntity;
 import com.example.chatbotAPI.mapper.impl.ChatHistoryMapperImpl;
 import com.example.chatbotAPI.service.ChatHistoryService;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,4 +49,9 @@ public class ChatHistoryController {
         }
     }
 
+    @DeleteMapping({"/{idChat}"})
+    public ResponseEntity<ChatHistoryDTO> delete(@PathVariable int idChat) {
+        chatHistoryService.delete(idChat);
+        return new ResponseEntity<ChatHistoryDTO>(HttpStatus.NO_CONTENT);
+    }
 }

@@ -2,6 +2,9 @@ package com.example.chatbotAPI.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Data
 @Entity
@@ -12,7 +15,7 @@ public class QuestionEntity {
     int idquestion;
     String questiontext;
     String responsetext;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "idHistory")
     ChatHistoryEntity idHistory;
 }
