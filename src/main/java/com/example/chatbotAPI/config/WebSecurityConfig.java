@@ -33,6 +33,11 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers( "/auth/login").permitAll()
+                                .requestMatchers(
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html"
+                                ).permitAll()
                                 .anyRequest().authenticated()
                 ).sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -55,7 +60,7 @@ public class WebSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
-        configuration.setAllowedMethods(List.of("GET" , "PUT" , "POST" , "DELETE" , "OPTIONS"));
+        configuration.setAllowedMethods(List.of("GET" , "PUT" , "POST" , "DELETE" , "OPTIONS" , "PATCH"));
         configuration.setAllowedHeaders(List.of("Authorization" , "Content-Type"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);

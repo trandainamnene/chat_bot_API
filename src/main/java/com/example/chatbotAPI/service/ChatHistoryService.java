@@ -7,6 +7,8 @@ import com.example.chatbotAPI.domain.entity.QuestionEntity;
 import com.example.chatbotAPI.repository.ChatHistoryRepo;
 import com.example.chatbotAPI.repository.QuestionRepo;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,5 +63,14 @@ public class ChatHistoryService {
         } );
         Iterable<QuestionEntity> lstQuestion = questionRepo.findAll();
         chatHistoryRepo.deleteById(idChat);
+    }
+
+    public ChatHistoryEntity partialUpdate(int id , ChatHistoryEntity chatHistoryEntity) throws Exception {
+        chatHistoryEntity.setIdHistory(id);
+        Optional<ChatHistoryEntity> getChatHistory = chatHistoryRepo.findById(id);
+        return getChatHistory.map(current -> {
+            Optional.ofNullable(chatHistoryEntity.getSummary()).ifPresent(current::setSummary);
+            return chatHistoryRepo.save(current);
+        }).orElseThrow(() -> new Exception("User is not exist"));
     }
 }

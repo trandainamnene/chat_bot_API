@@ -12,6 +12,7 @@ public class ChatHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idHistory;
+    @Column(name = "summary", columnDefinition = "NVARCHAR(1000)")
     String summary;
     @ManyToOne
     @JoinColumn(name = "username")

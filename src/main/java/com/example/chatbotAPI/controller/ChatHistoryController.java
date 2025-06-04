@@ -54,4 +54,13 @@ public class ChatHistoryController {
         chatHistoryService.delete(idChat);
         return new ResponseEntity<ChatHistoryDTO>(HttpStatus.NO_CONTENT);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ChatHistoryDTO> partialUpdate(@PathVariable int id , @RequestBody  ChatHistoryDTO chatHistoryDTO) throws Exception {
+        ChatHistoryEntity chatHistoryEntity = chatHistoryMapper.mapFrom(chatHistoryDTO);
+        if (chatHistoryService.isExist(id)) {
+            return ResponseEntity.ok(chatHistoryMapper.mapTo(chatHistoryService.partialUpdate(id , chatHistoryEntity)));
+        }
+        return new ResponseEntity<ChatHistoryDTO>(HttpStatus.NOT_FOUND);
+    }
 }

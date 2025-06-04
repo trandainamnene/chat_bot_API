@@ -12,9 +12,18 @@ import org.hibernate.annotations.OnDeleteAction;
 public class QuestionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int idquestion;
-    String questiontext;
-    String responsetext;
+    @Column(name = "idquestion")
+    private int idquestion;
+
+    @Column(name = "questiontext", columnDefinition = "NVARCHAR(MAX)")
+    private String questiontext;
+
+    @Column(name = "responsetext", columnDefinition = "NVARCHAR(MAX)")
+    private String responsetext;
+
+    @Column(name = "base64URLImage", columnDefinition = "VARCHAR(MAX)")
+    private String base64URLImage;
+
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "idHistory")
     ChatHistoryEntity idHistory;

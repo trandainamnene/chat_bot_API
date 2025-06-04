@@ -12,5 +12,6 @@ public class QuestionDTO {
     int idquestion;
     String questiontext;
     String responsetext;
+    String base64URLImage;
     ChatHistoryDTO idHistory;
 }
