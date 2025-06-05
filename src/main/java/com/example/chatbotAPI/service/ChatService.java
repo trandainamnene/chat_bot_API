@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
 import java.awt.*;
+import java.awt.image.DataBuffer;
 
 @Service
 public class ChatService {
@@ -29,10 +30,17 @@ public class ChatService {
                 .uri("/generative_ai/{idChat}", idChat)
                 .bodyValue(requestBody)
                 .retrieve()
-                .bodyToFlux(String.class)
-                .doOnNext(chunk -> logger.info("Nhận chunk: {}", chunk.substring(0, Math.min(chunk.length(), 50))))
-                .doOnError(e -> logger.error("Lỗi khi gọi FastAPI: {}", e.getMessage()))
-                .onErrorResume(e -> Flux.just("Lỗi: " + e.getMessage()));
+                .bodyToFlux(String.class);
+    }
+
+    public Flux<String> callFastApiSummarize(String question) {
+        var requestBody = new QuestionRequest(question , null);
+
+        return webClient.post()
+                .uri("/summarize")
+                .bodyValue(requestBody)
+                .retrieve()
+                .bodyToFlux(String.class);
     }
     public record QuestionRequest(
             @JsonProperty("question") String question,

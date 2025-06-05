@@ -38,6 +38,7 @@ public class WebSecurityConfig {
                                         "/swagger-ui/**",
                                         "/swagger-ui.html"
                                 ).permitAll()
+                                .requestMatchers("/api/chat/generative_ai/**").permitAll()
                                 .anyRequest().authenticated()
                 ).sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

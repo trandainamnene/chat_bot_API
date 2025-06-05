@@ -6,6 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
+import java.awt.image.DataBuffer;
+
 @RestController
 @RequestMapping("/api/chat")
 public class ChatController {
@@ -16,11 +18,16 @@ public class ChatController {
         this.chatService = chatService;
     }
 
-    @PostMapping(value = "/stream/{idChat}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @PostMapping(value = "/generative_ai/{idChat}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> streamFastApi(@PathVariable Long idChat, @RequestBody ChatRequest request) {
         String base64Url = request.image() != null ? request.image().url() : null;
         String imageType = request.image() != null ? request.image().type() : null;
         return chatService.callFastApiStream(idChat, request.question(), base64Url, imageType);
+    }
+
+    @PostMapping(value = "/summarize")
+    public Flux<String> streamFastApi(@RequestBody ChatRequest request) {
+        return chatService.callFastApiSummarize(request.question());
     }
 
     public record ChatRequest(
