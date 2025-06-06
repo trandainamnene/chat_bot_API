@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.awt.*;
 import java.awt.image.DataBuffer;
+import java.util.Map;
 
 @Service
 public class ChatService {
@@ -33,14 +36,16 @@ public class ChatService {
                 .bodyToFlux(String.class);
     }
 
-    public Flux<String> callFastApiSummarize(String question) {
+    public Mono<Map> callFastApiSummarize(String question) {
         var requestBody = new QuestionRequest(question , null);
 
         return webClient.post()
                 .uri("/summarize")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(requestBody)
                 .retrieve()
-                .bodyToFlux(String.class);
+                .bodyToMono(Map.class);
     }
     public record QuestionRequest(
             @JsonProperty("question") String question,

@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.awt.image.DataBuffer;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/chat")
@@ -25,8 +27,8 @@ public class ChatController {
         return chatService.callFastApiStream(idChat, request.question(), base64Url, imageType);
     }
 
-    @PostMapping(value = "/summarize")
-    public Flux<String> streamFastApi(@RequestBody ChatRequest request) {
+    @PostMapping(value = "/summarize" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<Map> streamFastApi(@RequestBody ChatRequest request) {
         return chatService.callFastApiSummarize(request.question());
     }
 
